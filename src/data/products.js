@@ -1,0 +1,38 @@
+export const PRODUCTS = [
+  {
+    id: '1',
+    title: 'Sunscreen Gel SPF 50',
+    price: 'Rp 89.000',
+    originalPrice: 'Rp 110.000',
+    rating: 4.8,
+    discount: 20,
+    image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=500&q=80',
+  },
+  {
+    id: '2',
+    title: 'Sunscreen Spray Beach',
+    price: 'Rp 125.000',
+    originalPrice: 'Rp 150.000',
+    rating: 4.7,
+    discount: 16,
+    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80',
+  },
+  {
+    id: '3',
+    title: 'Sunscreen Watery Lotion',
+    price: 'Rp 95.000',
+    originalPrice: null,
+    rating: 4.9,
+    discount: null,
+    image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&q=80',
+  },
+  {
+    id: '4',
+    title: 'Physical Sunscreen Stick',
+    price: 'Rp 105.000',
+    originalPrice: 'Rp 130.000',
+    rating: 4.6,
+    discount: 19,
+    image: 'https://images.unsplash.com/photo-1608248597260-244f77c3876e?w=500&q=80',
+  },
+];
