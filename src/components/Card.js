@@ -1,108 +1,153 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Pressable, View, Text, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../theme/colors';
-import Button from './Button';
+import { COLORS, TYPOGRAPHY } from '../theme/colors';
 
-export default function Card({ title, price, originalPrice, rating, discount, image, onPress, onBuy }) {
+export const formatRupiah = (angka) =>
+  'Rp' + Number(angka).toLocaleString('id-ID');
+
+export default function Card({
+  title,
+  category,
+  price,
+  rating,
+  reviews,
+  discount,
+  image,
+  isFavorite = false,
+  onPress,
+  onToggleFavorite,
+}) {
   return (
-    <TouchableOpacity style={styles.card} activeOpacity={0.9} onPress={onPress}>
-      {discount && (
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>-{discount}%</Text>
-        </View>
-      )}
-      <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
-      <View style={styles.content}>
-        <Text style={styles.title} numberOfLines={1}>{title}</Text>
-        
-        <View style={styles.ratingRow}>
-          <Ionicons name="star" size={14} color="#FFD166" />
-          <Text style={styles.ratingText}>{rating}</Text>
-        </View>
+    <Pressable style={styles.card} onPress={onPress}>
+      <View style={styles.imageWrapper}>
+        <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
 
-        <View style={styles.priceRow}>
-          <Text style={styles.price}>{price}</Text>
-          {originalPrice && <Text style={styles.originalPrice}>{originalPrice}</Text>}
-        </View>
+        {discount ? (
+          <View style={styles.discountBadge}>
+            <Text style={styles.discountText}>-{discount}%</Text>
+          </View>
+        ) : null}
 
-        <Button title="Beli" onPress={onBuy} variant="secondary" style={styles.buyBtn} />
+        <Pressable
+          style={styles.heartButton}
+          onPress={onToggleFavorite}
+          hitSlop={8}
+        >
+          <Ionicons
+            name={isFavorite ? 'heart' : 'heart-outline'}
+            size={16}
+            color={isFavorite ? COLORS.danger : COLORS.primary}
+          />
+        </Pressable>
       </View>
-    </TouchableOpacity>
+
+      <View style={styles.body}>
+        {category ? <Text style={styles.category}>{category}</Text> : null}
+        <Text style={styles.title} numberOfLines={2}>
+          {title}
+        </Text>
+        <Text style={styles.price}>{formatRupiah(price)}</Text>
+
+        {rating ? (
+          <View style={styles.ratingRow}>
+            <Ionicons name="star" size={12} color={COLORS.star} />
+            <Text style={styles.ratingValue}>{rating}</Text>
+            {reviews ? (
+              <Text style={styles.reviewText}> · {reviews} ulasan</Text>
+            ) : null}
+          </View>
+        ) : null}
+      </View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
+    flex: 1,
+    margin: 6,
     backgroundColor: COLORS.card,
-    borderRadius: 12,
+    borderRadius: 12, // Radius kartu: 12 px
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: COLORS.border,
-    overflow: 'hidden',
-    marginBottom: 16,
-    width: '48%',
-    elevation: 2,
+    elevation: 2, // Elevasi kartu: 2 px
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOpacity: 0.06,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
   },
-  badge: {
+  imageWrapper: {
+    width: '100%',
+    aspectRatio: 1,
+    backgroundColor: COLORS.background,
+    position: 'relative',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  discountBadge: {
     position: 'absolute',
     top: 8,
     left: 8,
     backgroundColor: COLORS.danger,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 6,
-    zIndex: 10,
   },
-  badgeText: {
-    color: '#FFFFFF',
+  discountText: {
+    color: COLORS.card,
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
-  image: {
-    width: '100%',
-    height: 120,
-    backgroundColor: '#EAEAEA',
+  heartButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  content: {
-    padding: 10,
+  body: {
+    padding: 12,
+  },
+  category: {
+    ...TYPOGRAPHY.label,
+    fontSize: 11,
+    color: COLORS.muted,
+    marginBottom: 2,
   },
   title: {
-    fontSize: 13,
-    fontWeight: 'bold',
+    ...TYPOGRAPHY.isi,
+    fontWeight: '700',
     color: COLORS.text,
+    minHeight: 42,
+  },
+  price: {
+    ...TYPOGRAPHY.isi,
+    fontWeight: '700',
+    color: COLORS.primary,
+    marginTop: 4,
   },
   ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 4,
+    marginTop: 8,
   },
-  ratingText: {
-    fontSize: 12,
-    color: COLORS.muted,
+  ratingValue: {
+    ...TYPOGRAPHY.label,
+    fontWeight: '600',
+    color: COLORS.text,
     marginLeft: 4,
   },
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginVertical: 4,
-  },
-  price: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: COLORS.accent,
-  },
-  originalPrice: {
-    fontSize: 10,
+  reviewText: {
+    ...TYPOGRAPHY.label,
+    fontSize: 11,
     color: COLORS.muted,
-    textDecorationLine: 'line-through',
-    marginLeft: 4,
-  },
-  buyBtn: {
-    marginTop: 6,
-    paddingVertical: 6,
   },
 });

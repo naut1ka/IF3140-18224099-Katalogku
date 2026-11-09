@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../theme/colors';
+import { COLORS, TYPOGRAPHY } from '../theme/colors';
 
 export default function Button({ title, onPress, variant = 'primary', icon, style }) {
   const getButtonStyle = () => {
@@ -9,12 +9,12 @@ export default function Button({ title, onPress, variant = 'primary', icon, styl
       case 'secondary':
         return { backgroundColor: COLORS.accent };
       case 'danger':
-        return { backgroundColor: COLORS.danger }; // Merah Koral (#E63946)
+        return { backgroundColor: COLORS.danger };
       case 'outline':
-        return { 
-          backgroundColor: '#FFFFFF', 
-          borderWidth: 1, 
-          borderColor: COLORS.primary 
+        return {
+          backgroundColor: COLORS.card,
+          borderWidth: 1,
+          borderColor: COLORS.primary,
         };
       default:
         return { backgroundColor: COLORS.primary };
@@ -23,7 +23,7 @@ export default function Button({ title, onPress, variant = 'primary', icon, styl
 
   const getTextColor = () => {
     if (variant === 'outline') return COLORS.primary;
-    return '#FFFFFF';
+    return COLORS.card;
   };
 
   return (
@@ -34,11 +34,11 @@ export default function Button({ title, onPress, variant = 'primary', icon, styl
     >
       <View style={styles.contentRow}>
         {icon && (
-          <Ionicons 
-            name={icon} 
-            size={18} 
-            color={getTextColor()} 
-            style={{ marginRight: 8 }} 
+          <Ionicons
+            name={icon}
+            size={18}
+            color={getTextColor()}
+            style={{ marginRight: 8 }}
           />
         )}
         <Text style={[styles.text, { color: getTextColor() }]}>{title}</Text>
@@ -50,7 +50,7 @@ export default function Button({ title, onPress, variant = 'primary', icon, styl
 const styles = StyleSheet.create({
   button: {
     height: 48,
-    borderRadius: 10,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 14,
+    ...TYPOGRAPHY.isi,
     fontWeight: '600',
   },
 });
