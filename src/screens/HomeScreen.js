@@ -117,7 +117,7 @@ export default function HomeScreen({ navigation }) {
               discount={item.discount}
               image={item.thumbnail}
               onPress={() =>
-                navigation?.navigate('Detail', { product: item })
+                navigation?.navigate('Detail', { id: item.id })
               }
             />
           </View>

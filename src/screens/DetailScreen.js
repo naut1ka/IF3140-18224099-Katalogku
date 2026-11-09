@@ -8,12 +8,13 @@ import { DUMMY_PRODUCTS } from '../data/dummy';
 import { COLORS, TYPOGRAPHY } from '../theme/colors';
 
 export default function DetailScreen({ route, navigation }) {
-  const product = route?.params?.product || DUMMY_PRODUCTS[0];
-
+  const productId = route?.params?.id;
+  const product =
+    DUMMY_PRODUCTS.find((item) => item.id === productId) || DUMMY_PRODUCTS[0];
   return (
     <View style={styles.container}>
       <HeaderBar
-        title="Detail Produk"
+        title={product.title}
         onBack={navigation ? () => navigation.goBack() : undefined}
       />
 
@@ -71,9 +72,9 @@ export default function DetailScreen({ route, navigation }) {
         ) : null}
 
         <Button
-          title="Tambah ke Favorit"
-          icon="heart-outline"
-          onPress={() => {}}
+            title={fav ? 'Hapus dari Favorit' : 'Tambah ke Favorit'}
+            variant={fav ? 'outline' : 'primary'}
+            onPress={() => toggleFavorit(product)}
         />
       </ScrollView>
     </View>
