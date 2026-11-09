@@ -1,13 +1,38 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
-import { COLORS } from '../theme/colors';
+import Button from '../components/Button';
+import { COLORS, TYPOGRAPHY } from '../theme/colors';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.background }}>
+    <View style={styles.container}>
       <HeaderBar title="Profil" />
-      <Text style={{ padding: 16 }}>Segera hadir di Modul 6</Text>
+      <View style={styles.content}>
+        <Text style={styles.placeholder}>
+          Form profil segera hadir di Modul 6
+        </Text>
+        <Button
+          title="Tentang Aplikasi"
+          variant="outline"
+          onPress={() => navigation.navigate('About')}
+        />
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  content: {
+    padding: 16,
+    gap: 16,
+  },
+  placeholder: {
+    ...TYPOGRAPHY.isi,
+    color: COLORS.muted,
+  },
+});
