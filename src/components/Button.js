@@ -3,7 +3,14 @@ import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, TYPOGRAPHY } from '../theme/colors';
 
-export default function Button({ title, onPress, variant = 'primary', icon, style }) {
+export default function Button({
+  title,
+  onPress,
+  variant = 'primary',
+  icon,
+  style,
+  disabled = false,
+}) {
   const getButtonStyle = () => {
     switch (variant) {
       case 'secondary':
@@ -29,7 +36,13 @@ export default function Button({ title, onPress, variant = 'primary', icon, styl
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      style={[styles.button, getButtonStyle(), style]}
+      disabled={disabled}
+      style={[
+        styles.button,
+        getButtonStyle(),
+        disabled && styles.disabled,
+        style,
+      ]}
       onPress={onPress}
     >
       <View style={styles.contentRow}>
@@ -54,6 +67,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+  },
+  disabled: {
+    opacity: 0.5,
   },
   contentRow: {
     flexDirection: 'row',

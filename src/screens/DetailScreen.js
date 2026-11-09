@@ -6,11 +6,14 @@ import Button from '../components/Button';
 import { formatRupiah } from '../components/Card';
 import { DUMMY_PRODUCTS } from '../data/dummy';
 import { COLORS, TYPOGRAPHY } from '../theme/colors';
+import { useFavorite } from '../context/FavoriteContext';
 
 export default function DetailScreen({ route, navigation }) {
   const productId = route?.params?.id;
   const product =
     DUMMY_PRODUCTS.find((item) => item.id === productId) || DUMMY_PRODUCTS[0];
+  const { isFavorite, toggleFavorite } = useFavorite();
+  const fav = isFavorite(product.id);
   return (
     <View style={styles.container}>
       <HeaderBar
@@ -74,7 +77,7 @@ export default function DetailScreen({ route, navigation }) {
         <Button
             title={fav ? 'Hapus dari Favorit' : 'Tambah ke Favorit'}
             variant={fav ? 'outline' : 'primary'}
-            onPress={() => toggleFavorit(product)}
+            onPress={() => toggleFavorite(product)}
         />
       </ScrollView>
     </View>

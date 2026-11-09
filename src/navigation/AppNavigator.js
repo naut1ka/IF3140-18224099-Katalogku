@@ -5,18 +5,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import HomeScreen from '../screens/HomeScreen';
-import FavoritScreen from '../screens/FavoriteScreen';
+import FavoriteScreen from '../screens/FavoriteScreen';
 import CartScreen from '../screens/CartScreen';
-import ProfilScreen from '../screens/ProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import DetailScreen from '../screens/DetailScreen';
 import AboutScreen from '../screens/AboutScreen';
 import { COLORS, TYPOGRAPHY } from '../theme/colors';
+import { useFavorite } from '../context/FavoriteContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function MainTabs() {
   const insets = useSafeAreaInsets();
+  const { favorites } = useFavorite();
 
   return (
     <Tab.Navigator
@@ -53,9 +55,13 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Beranda" component={HomeScreen} />
-      <Tab.Screen name="Favorit" component={FavoritScreen} />
+      <Tab.Screen
+        name="Favorit"
+        component={FavoriteScreen}
+        options={{ tabBarBadge: favorites.length || undefined }}
+      />
       <Tab.Screen name="Keranjang" component={CartScreen} />
-      <Tab.Screen name="Profil" component={ProfilScreen} />
+      <Tab.Screen name="Profil" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
